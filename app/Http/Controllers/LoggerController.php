@@ -67,7 +67,7 @@ class LoggerController extends Controller
      * @param  \App\Logger  $logger
      * @return \Illuminate\Http\Response
      */
-    public function show(Logger $logger){
+    public function show(Request $request,Logger $logger){
         return view('logger.show', compact('logger'));
     }
     /**
@@ -123,18 +123,26 @@ class LoggerController extends Controller
         $file = $log->log_path;
         $total_lines = shell_exec('cat ' . escapeshellarg($file) . ' | wc -l');
 
+        // if($request->session()->has('current_line')){
+        //     return true;
+        // }else{
+        //     $request->session()->put('current_line', '0');
+        // }
+
         $lines = "";
         if($request->session()->has('current_line') && $request->session()->get('current_line') < $total_lines){
             $lines = shell_exec('tail -n' . ($total_lines - $request->session()->get('current_line')) . ' ' . escapeshellarg($file));
         }elseif($request->session()->has('current_line')){
-            $lines = shell_exec('tail -n100 ' . escapeshellarg($file));
+            $lines = shell_exec('tail -n5 ' . escapeshellarg($file));
         }
+
         $request->session()->put('current_line', $total_lines);
         
         $lines_array = array_filter(preg_split('#[\r\n]+#', trim($lines)));
 
         if(count($lines_array)){
-            echo json_encode($lines_array);
+            return response()->json($lines_array, 200);
+            // return echo json_encode($lines_array);
         }
     }
 
