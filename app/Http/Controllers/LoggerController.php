@@ -52,7 +52,8 @@ class LoggerController extends Controller
         ]);
     
         $logger = Logger::create($request->all());
-        
+        $logger->user_id = Auth::user()->id;
+
         if($logger->save()){
             return redirect()->route('logger.index');
         }
@@ -65,7 +66,8 @@ class LoggerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Logger $logger){
-        return view('logger.show', compact('logger'));
+        return $logger->log_path;
+        // return view('logger.show', compact('logger'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -92,7 +94,8 @@ class LoggerController extends Controller
         ]);
     
         $update = $logger->update($request->all());
-        
+        $update->user_id = Auth::user()->id;
+
         if($update){
             return redirect()->route('logger.index');
         }
