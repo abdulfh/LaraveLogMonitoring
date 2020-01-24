@@ -47,18 +47,3 @@
     </div>
 </div>
 @endsection
-@push('javascript')
-    <script>
-        $("datatable").DataTable({
-            processing:true,
-            serverSide:true,
-            ajax:"{{route('logger.api')}}",
-            columns:[
-                {data:'DT_RowIndex', name:'DT_RowIndex',searchable:false},
-                {data:'logger_name', name:'logger_name'},
-                {data:'logger_path', name:'logger_path'},
-                {data:'action', name:'action',orderable:false,searchable:false},
-            ]
-        });
-    </script>
-@endpush

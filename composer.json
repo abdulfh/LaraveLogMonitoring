@@ -41,7 +41,8 @@
             "database/factories"
         ],
         "files" : [
-            "app/Helpers/ActiveLink.php"
+            "app/Helpers/ActiveLink.php",
+            "app/Helpers/Tail.php"
         ]
     },
     "autoload-dev": {

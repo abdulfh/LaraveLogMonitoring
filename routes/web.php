@@ -20,5 +20,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // Resource Logger
-Route::get('logger/api', 'LoggerController@api')->name('logger.api');
+Route::get('logger/api/{logId}', 'LoggerController@readlog')->name('logger.api');
 Route::resource('logger', 'LoggerController');
