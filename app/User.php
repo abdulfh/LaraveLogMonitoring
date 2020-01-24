@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * Get the logs for the blog post.
+     */
+    public function logs(){
+        return $this->hasMany(App\Logger::class);
+    }
 }
