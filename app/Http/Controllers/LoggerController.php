@@ -121,29 +121,22 @@ class LoggerController extends Controller
     {
         $log = Logger::find($logId);
         $file = $log->log_path;
-        $total_lines = shell_exec('cat ' . escapeshellarg($file) . ' | wc -l');
-
-        // if($request->session()->has('current_line')){
-        //     return true;
-        // }else{
-        //     $request->session()->put('current_line', '0');
-        // }
+        $total_lines = intval(shell_exec('cat ' . escapeshellarg($file) . ' | wc -l'));
 
         $lines = "";
-        if($request->session()->has('current_line') && $request->session()->get('current_line') < $total_lines){
+        if(!$request->session()->has('current_line')){
+            $lines = shell_exec('tail -n 1 ' . escapeshellarg($file));
+        }elseif($request->session()->has('current_line') && $request->session()->get('current_line') < $total_lines){
             $lines = shell_exec('tail -n' . ($total_lines - $request->session()->get('current_line')) . ' ' . escapeshellarg($file));
-        }elseif($request->session()->has('current_line')){
-            $lines = shell_exec('tail -n5 ' . escapeshellarg($file));
         }
-
-        $request->session()->put('current_line', $total_lines);
         
         $lines_array = array_filter(preg_split('#[\r\n]+#', trim($lines)));
-
-        if(count($lines_array)){
-            return response()->json($lines_array, 200);
-            // return echo json_encode($lines_array);
+        
+        if(count($lines_array) && $request->session()->get('current_line') < $total_lines){
+            $request->session()->put('current_line', $total_lines);
+            return response()->json(["success" => end($lines_array)], 200);
         }
+        return response()->json(["error" => "Data Not Updated"], 200);
     }
 
 }

@@ -21,13 +21,14 @@
         var url =  "{!! route('logger.api', $logger->id) !!}"
         setInterval(function(){
             $.getJSON(url, function( data ) {
-              var $log = $('#msg');
-              $.each( data, function( key, val ) {
-                $log.prepend( "<li>" + val + "</li>" );
-              });
+                var $log = $('#msg');
+                $.each( data, function( key, val ) {
+                    if (key == 'success') {
+                        $log.append( "<li>" + val + "</li>" );
+                    }
+                });
             });
-
-        },1000);
+        },5000);
     });
 </script>
 @endpush
