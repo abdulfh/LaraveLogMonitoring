@@ -22,13 +22,14 @@
         setInterval(function(){
             $.getJSON(url, function( data ) {
                 var $log = $('#msg');
-                $.each( data, function( key, val ) {
-                    if (key == 'success') {
-                        $log.append( "<li>" + val + "</li>" );
-                    }
-                });
+                console.log(data);
+                if (data.status == 'success') {
+                    $.each( data.value, function( key, val ) {
+                            $log.append( "<li>" + val + "</li>" );
+                    });
+                }
             });
-        },5000);
+        },2000);
     });
 </script>
 @endpush
