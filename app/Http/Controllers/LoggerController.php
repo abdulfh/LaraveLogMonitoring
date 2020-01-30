@@ -25,6 +25,10 @@ class LoggerController extends Controller
      */
     public function index()
     {
+        if($request->session()->has('current_line')){
+            $request->session()->forget('current_line');
+        }
+        
         $logger = Logger::where('user_id', Auth::user()->id)->get();
         $num = 1;
         return view('logger.index',compact('logger','num'));
