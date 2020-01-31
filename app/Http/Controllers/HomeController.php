@@ -22,8 +22,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->session()->has('current_line')){
+            $request->session()->forget('current_line');
+        }
         $logger = Logger::get();
         return view('home', compact('logger'));
     }
