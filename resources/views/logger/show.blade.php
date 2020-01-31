@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body overflow-auto" style="max-height:500px">
                     <ul id="msg"></ul>
                 </div>
             </div>
