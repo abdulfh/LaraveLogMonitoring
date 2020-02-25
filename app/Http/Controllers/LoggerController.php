@@ -23,7 +23,7 @@ class LoggerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if($request->session()->has('current_line')){
             $request->session()->forget('current_line');
